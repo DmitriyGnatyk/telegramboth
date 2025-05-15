@@ -2,12 +2,13 @@ import logging
 import re
 import json
 import os
+import threading
+from flask import Flask
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
     ApplicationBuilder, MessageHandler, filters, ContextTypes,
     CommandHandler, CallbackQueryHandler, ConversationHandler
     )
-from flask import Flask
 
 TOKEN = '8199311639:AAEqfXh9dX8MYyNy0cuDE-RrMKRHfAtfeUY'
 
