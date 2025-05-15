@@ -10,6 +10,12 @@ from telegram.ext import (
 
 TOKEN = '8199311639:AAEqfXh9dX8MYyNy0cuDE-RrMKRHfAtfeUY'
 
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return 'Бот працює!'
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -243,4 +249,6 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    threading.Thread(target=start_bot).start()
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
