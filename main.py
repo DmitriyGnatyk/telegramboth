@@ -254,7 +254,7 @@ flask_app = Flask(__name__)
 def home():
     return 'Бот працює!'
 
-if name == '__main__':
+if __name__ == '__main__':
     threading.Thread(target=start_bot).start()
     port = int(os.environ.get('PORT', 5000))
     flask_app.run(host='0.0.0.0', port=port)
