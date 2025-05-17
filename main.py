@@ -3,7 +3,6 @@ import re
 import json
 import os
 import threading
-from flask import Flask
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
     ApplicationBuilder, MessageHandler, filters, ContextTypes,
@@ -244,17 +243,5 @@ def main():
     app.run_polling()
 
 
-def start_bot():
-    import asyncio
-    asyncio.run(run_bot())
-
-flask_app = Flask(__name__)
-
-@flask_app.route('/')
-def home():
-    return 'Бот працює!'
-
 if __name__ == '__main__':
-    threading.Thread(target=start_bot).start()
-    port = int(os.environ.get('PORT', 5000))
-    flask_app.run(host='0.0.0.0', port=port)
+    main()
