@@ -3,6 +3,7 @@ import re
 import json
 import os
 import threading
+from background import keep_alive
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
     ApplicationBuilder, MessageHandler, filters, ContextTypes,
@@ -203,7 +204,19 @@ async def echo_and_delete(update: Update, context: ContextTypes.DEFAULT_TYPE):
         text = re.sub(re.escape(word), replacement, text, flags=re.IGNORECASE)
     try:
         if msg.text:
-            await context.bot.send_message(chat_id, text, entities=msg.entities)
+            if msg.reply_to_message:
+                await context.bot.send_message(
+                    chat_id,
+                    text,
+                    entities=msg.entities,
+                    reply_to_message_id=msg.reply_to_message.message_id
+                )
+            else:
+                await context.bot.send_message(
+                    chat_id,
+                    text,
+                    entities=msg.entities
+                )
         elif msg.photo:
             photo = msg.photo[-1]
             await context.bot.send_photo(chat_id, photo.file_id, caption=msg.caption)
@@ -219,7 +232,6 @@ async def echo_and_delete(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await context.bot.send_audio(chat_id, msg.audio.file_id, caption=msg.caption)
     except Exception as e:
         logger.warning(f"Не вдалося відправити копію повідомлення: {e}")
-
 
 def main():
     load_data()  # Завантажуємо дані при старті бота
@@ -241,7 +253,7 @@ def main():
     app.add_handler(MessageHandler(filters.ALL & filters.ChatType.GROUPS, echo_and_delete))
 
     app.run_polling()
-
-
+    
+keep_alive()
 if __name__ == '__main__':
     main()
