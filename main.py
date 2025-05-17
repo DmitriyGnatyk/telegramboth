@@ -10,7 +10,7 @@ from telegram.ext import (
     CommandHandler, CallbackQueryHandler, ConversationHandler
     )
 
-TOKEN = '8199311639:AAEqfXh9dX8MYyNy0cuDE-RrMKRHfAtfeUY'
+TOKEN = '8199311639:AAEPmmRUazTmLNguoC68p68X-Xj5K0ce5DA'
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
